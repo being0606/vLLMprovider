@@ -1,5 +1,6 @@
 from vllm import LLM
 
+
 def create_llm_instance(model_path, tensor_parallel_size=2, gpu_memory_utilization=0.8):
     """
     LLM 인스턴스를 생성하는 공통 함수.
@@ -11,7 +12,7 @@ def create_llm_instance(model_path, tensor_parallel_size=2, gpu_memory_utilizati
         max_num_seqs=128,  # 동시에 처리할 최대 시퀀스 수
         max_num_batched_tokens=2048,  # 최대 배치 토큰 수
         kv_cache_dtype="fp16",  # 키-값 캐시 데이터 타입
-        cpu_offload_gb=4  # 부족한 메모리를 CPU로 오프로드
+        cpu_offload_gb=4,  # 부족한 메모리를 CPU로 오프로드
     )
 
 
@@ -23,8 +24,8 @@ def start_server(model_path):
     print("Starting vLLM server on port 8000...")
     llm.serve(
         host="0.0.0.0",  # 모든 네트워크 인터페이스에서 접근 가능
-        port=8000,       # 서버 포트
-        enforce_eager=True  # Eager Mode 활성화
+        port=8000,  # 서버 포트
+        enforce_eager=True,  # Eager Mode 활성화
     )
 
 
