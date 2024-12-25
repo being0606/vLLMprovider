@@ -1,7 +1,7 @@
 from vllm import LLM
 
 
-def create_llm_instance(model_path, tensor_parallel_size=2, gpu_memory_utilization=0.8):
+def create_llm_instance(model_path, tensor_parallel_size=2, gpu_memory_utilization=0.9):
     """
     LLM 인스턴스를 생성하는 공통 함수.
     """
@@ -9,12 +9,9 @@ def create_llm_instance(model_path, tensor_parallel_size=2, gpu_memory_utilizati
         model=model_path,
         tensor_parallel_size=tensor_parallel_size,  # 사용하려는 GPU 수
         gpu_memory_utilization=gpu_memory_utilization,  # GPU 메모리 사용률 제한
-        max_num_seqs=128,  # 동시에 처리할 최대 시퀀스 수
-        # max_num_batched_tokens=2048,  # 최대 배치 토큰 수
-        # kv_cache_dtype="fp16",  # 키-값 캐시 데이터 타입
-        cpu_offload_gb=4,  # 부족한 메모리를 CPU로 오프로드
+        max_num_seqs=32,  # 동시에 처리할 최대 시퀀스 수
+        cpu_offload_gb=128,  # 부족한 메모리를 CPU로 오프로드
     )
-
 
 def start_server(model_path):
     """
@@ -44,7 +41,8 @@ def run_interactive_mode(model_path):
 
         # 모델 응답 생성
         print("[Processing] Generating response...")
-        response = llm.generate(user_input)
+        outputs = llm.generate(user_input)
+        response = outputs[0].outputs[0].text
         print(f"[Output] {response}")
 
 
