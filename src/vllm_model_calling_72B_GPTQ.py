@@ -9,10 +9,10 @@ def create_llm_instance(model_path, tensor_parallel_size=2, gpu_memory_utilizati
         model=model_path,
         tensor_parallel_size=tensor_parallel_size,  # 사용하려는 GPU 수
         gpu_memory_utilization=gpu_memory_utilization,  # GPU 메모리 사용률 제한
-        max_num_seqs=256,  # 동시에 처리할 최대 시퀀스 수
-        # enforce_eager=True # 이걸 하라는데 무슨 모드인지는 모르겠음
+        max_num_seqs=128,  # 동시에 처리할 최대 시퀀스 수
+        # max_num_batched_tokens=2048,  # 최대 배치 토큰 수
         # kv_cache_dtype="fp16",  # 키-값 캐시 데이터 타입
-        cpu_offload_gb=128,  # 부족한 메모리를 CPU로 오프로드
+        cpu_offload_gb=4,  # 부족한 메모리를 CPU로 오프로드
     )
 
 
@@ -50,7 +50,7 @@ def run_interactive_mode(model_path):
 
 if __name__ == "__main__":
     # 공통된 모델 경로 설정
-    model_path = "/home/huggingface_cache/hub/models--Qwen--Qwen2-72B-Instruct/snapshots/c867f763ef53f2ea9d9b31ee8501273dedd391eb"
+    model_path = "/home/huggingface_cache/hub/models--Qwen--Qwen2.5-72B-Instruct-GPTQ-Int4/snapshots/da6e9d45661b91e02782f4ae2c6bb39c4a5b4821"
 
     # 모드 선택
     mode = input("Choose mode (1: Server, 2: Interactive): ").strip()
